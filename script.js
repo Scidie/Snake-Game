@@ -54,7 +54,7 @@ let direction = "left";
 let savedPosition = { row: 0, column: 0 };
 let copyOfCurrentPosition = { row: 0, column: 0 }
 let snakeLength = 4;
-let gameSpeed = 50;
+let gameSpeed = 120;
 let mainInterval = undefined;
 
 let mainSnake = [{ part: "head", position: { row: 18, column: 30 } }, { part: "body", position: { row: 18, column: 31 } }, { part: "body", position: { row: 18, column: 32 } }, { part: "body", position: { row: 18, column: 33 } }, { part: "body", position: { row: 18, column: 34 } }];

@@ -89,6 +89,7 @@ startGame_button.addEventListener("click", () => {
 exitGame_button.addEventListener("click", () => {
     direction = "left";
     clearInterval(mainInterval);
+    disableKeys()
     startGameWindowInterval = setInterval(preview, gameSpeed)
     mainGame_window.style.display = "none";
     gameOverScreen.style.display = "none";

@@ -1,0 +1,144 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', cursive;
+    background-color: darkmagenta;
+    /* background-image: url("./images/./snakes1.jpg"); */
+}
+
+#gameboard {
+    display: flex;
+    flex-direction: column;
+}
+
+#preview-gameboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.row-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.empty-field {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+}
+
+.snake-head {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(255, 0, 13);
+}
+
+.snake-body {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(121, 16, 21);
+}
+
+.food {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+}
+
+.speed-button {
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 0;
+    border: none;
+    background-color: darkorange;
+    margin: 10px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.speed-button:hover {
+    background-color: rgb(251, 216, 62);
+    color: rgb(36, 36, 36);
+}
+
+#start-game-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: cadetblue;
+    width: 100vw;
+    height: 100vh;
+}
+
+#settings-container {
+    display: flex; 
+    margin: 10px;
+}
+
+#start-game-button {
+    margin: 50px;
+    width: 300px;
+    height: 60px;
+    font-size: large;
+    font-weight: bold;
+    background-color: blueviolet;
+    font-family: 'Press Start 2P', cursive;
+}
+
+#start-game-button:hover {
+    background-color: violet;
+    color: rgb(36, 36, 36);
+}
+
+#main-game-window {
+    display: flex;
+    flex-direction: column;
+    background-color: cadetblue;
+}
+
+#top-menu-main-window {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#score-container {
+    display: flex;
+
+}
+
+#title {
+    
+    font-size: 200px;
+    margin: 200px;
+    color: darkmagenta;
+    font-family: 'Press Start 2P', cursive;
+    
+}
+
+#exit-game-button {
+    font-family: 'Press Start 2P', cursive;
+}
+
+#game-over-screen {
+    display: flex;
+    z-index: 10;
+    display: flex;
+    position: absolute;
+}
+
+.game-over-text {
+    background-color: white;
+}

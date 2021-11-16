@@ -10,7 +10,6 @@ body {
     justify-content: center;
     font-family: 'Press Start 2P', cursive;
     background-color: darkmagenta;
-    transform: scale(0.5);
     /* background-image: url("./images/./snakes1.jpg"); */
 }
 
@@ -31,29 +30,30 @@ body {
 
 .empty-field {
     display: flex;
-    width: 20px;
-    height: 20px;
     background-color: black;
+}
+.field {
+    width: 2vw;
+    height: 2vw;
+}
+
+.preview-field {
+   width: 20px;
+   height: 20px; 
 }
 
 .snake-head {
     display: flex;
-    width: 20px;
-    height: 20px;
     background-color: rgb(255, 0, 13);
 }
 
 .snake-body {
     display: flex;
-    width: 20px;
-    height: 20px;
     background-color: rgb(121, 16, 21);
 }
 
 .food {
     display: flex;
-    width: 20px;
-    height: 20px;
     background-color: rgb(255, 255, 255);
 }
 
@@ -85,11 +85,12 @@ body {
 
 #settings-container {
     display: flex; 
+    justify-content: center;
     margin: 10px;
 }
 
 #start-game-button {
-    margin: 50px;
+    margin-top: 40px;
     width: 300px;
     height: 60px;
     font-size: large;
@@ -121,12 +122,25 @@ body {
 }
 
 #title {
-    
-    font-size: 100px;
-    margin: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 100vw;
+    font-size: 15vw;
     color: darkmagenta;
     font-family: 'Press Start 2P', cursive;
     
+}
+
+#start-menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 50vh;
+    width: 100vw;
+    font-size: 5vh;
 }
 
 #exit-game-button {
@@ -137,9 +151,53 @@ body {
     display: flex;
     z-index: 10;
     display: flex;
+    background-color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: absolute;
+    font-size: 3vw;
 }
 
 .game-over-text {
     background-color: white;
+}
+
+#menu-text {
+    font-size: 30px;
+}
+
+#preview-and-buttons-container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 780px) {
+    #menu-text {
+        font-size: 15px;
+    }
+
+    #preview-and-buttons-container {
+        transform: scale(0.5);
+    }
+
+    #start-game-button {
+        margin-top: 10px;
+        width: 200px;
+        height: 30px;
+        font-size: medium;
+        font-weight: bold;
+        background-color: blueviolet;
+        font-family: 'Press Start 2P', cursive;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    #gameboard {
+        transform: scale(100vw/0.6);
+    }
+
+    /* #top-menu-main-window {
+        transform: scale(calc(100vh*0.6));
+    } */
 }

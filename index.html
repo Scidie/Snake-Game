@@ -18,16 +18,20 @@
 <body>
     <div id="start-game-window">
         <div id="title">SNAKE</div>
-        <div style="font-size: 30px; margin: 10px;">Choose game speed</div>
-        <div id="settings-container">
-            <button class="speed-button" id="speed1">1</button>
-            <button class="speed-button" id="speed2">2</button>
-            <button class="speed-button" id="speed3">3</button>
-            <button class="speed-button" id="speed4">4</button>
-            <button class="speed-button" id="speed5">5</button>
+        <div id="start-menu-container">
+            <div id="menu-text">Choose game speed</div>
+            <div id="preview-and-buttons-container">
+                <div id="settings-container">
+                    <button class="speed-button" id="speed1">1</button>
+                    <button class="speed-button" id="speed2">2</button>
+                    <button class="speed-button" id="speed3">3</button>
+                    <button class="speed-button" id="speed4">4</button>
+                    <button class="speed-button" id="speed5">5</button>
+                </div>
+                <div id="preview-gameboard"></div>
+            </div>
+            <button id="start-game-button">START GAME</button>
         </div>
-        <div id="preview-gameboard"></div>
-        <button id="start-game-button">START GAME</button>
     </div>
     <div id="main-game-window" style="display: none;">
         <div id="top-menu-main-window">
@@ -41,14 +45,11 @@
         <div id="gameboard"></div>
     </div>
     <div id="game-over-screen" style="display: none;">
-        <div class="game-over-text">GAME OVER:</div>
-        <div class="game-over-text">YOUR FINAL SCORE:</div>
-        <div id="final-score" class="game-over-text"></div>
-    </div>
-    <div id="game-over-screen" style="display: none;">
         <div class="game-over-text">GAME OVER</div>
-        <div class="game-over-text">YOUR FINAL SCORE:</div>
-        <div id="final-score" class="game-over-text"></div>
+        <dir>
+            <span class="game-over-text">YOUR FINAL SCORE:</span><span id="final-score" class="game-over-text"></span>
+        </dir>
+       
     </div>
     <script src="./script.js"></script>
 </body>

@@ -371,8 +371,11 @@ function deleteFood() {
 function createField(typeOfField, gameboard) {
     let field = document.createElement("div");
     field.className = typeOfField;
+    field.classList.add("field-settings")
     if (gameboard.id === "gameboard") {
         field.classList.add("field")
+    } else {
+        field.classList.add("preview-field")
     }
     return field;
 }

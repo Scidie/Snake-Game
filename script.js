@@ -140,8 +140,8 @@ function game() {
     }
     if (foodCounter === 0) {
         generateFood();
-        eatCounter = 50;
-        foodCounter = 55;
+        eatCounter = 55;
+        foodCounter = 60;
     }
     foodCounter--;
     eatCounter--;

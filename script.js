@@ -140,8 +140,8 @@ function game() {
     }
     if (foodCounter === 0) {
         generateFood();
-        eatCounter = 40;
-        foodCounter = 45;
+        eatCounter = 50;
+        foodCounter = 55;
     }
     foodCounter--;
     eatCounter--;
@@ -240,6 +240,7 @@ function placeSnakeOnBoard(gameboardArray, snake) {
                 score += 10;
                 scoreTable.textContent = score;
                 scoreCounter++;
+                foodCounter = 0;
                 if (scoreCounter === 6 && gameSpeed > 10) {
                     scoreCounter = 0;
                     gameSpeed -= 10;

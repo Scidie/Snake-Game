@@ -71,6 +71,7 @@ let previewSnake = [{ part: "head", position: { row: 3, column: 10 } }, { part: 
 startGame_button.addEventListener("click", () => {
     clearInterval(startGameWindowInterval);
     direction = "left";
+    document.addEventListener("click", enableTouchControl);
     mainInterval = setInterval(game, gameSpeed);
     document.addEventListener("keydown", enableKeys)
     setTimeout(() => {
@@ -82,6 +83,7 @@ startGame_button.addEventListener("click", () => {
 
 exitGame_button.addEventListener("click", () => {
     direction = "left";
+    document.removeEventListener("click", enableTouchControl);
     clearInterval(mainInterval);
     disableKeys()
     gameSpeed = 120;
@@ -96,9 +98,7 @@ exitGame_button.addEventListener("click", () => {
 programSpeedButtons(enableSpeedButtons)
 renderGameboard(previewGameboard, previewGameboardArray);
 
-
-document.addEventListener("click", event => {
-    console.log("hello")
+function enableTouchControl() {
     if (direction === "up" || direction === "down") {
         console.log(getSnakePositionOnScreen().x)
         if (getSnakePositionOnScreen().x < event.pageX) {
@@ -113,7 +113,7 @@ document.addEventListener("click", event => {
             direction = "up";
         }
     }
-})
+}
 
 
 let startGameWindowInterval = setInterval(preview, gameSpeed)

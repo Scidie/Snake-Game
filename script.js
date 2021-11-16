@@ -2,13 +2,23 @@ let mainGameboard = document.querySelector("#gameboard");
 let previewGameboard = document.querySelector("#preview-gameboard")
 let startGame_window = document.querySelector("#start-game-window");
 let startGame_button = document.querySelector("#start-game-button");
+let speedButtons = document.querySelectorAll(".speed-button")
 let mainGame_window = document.querySelector("#main-game-window");
 let scoreTable = document.querySelector("#score-table");
 let score = 0;
+let scoreCounter = 0;
 let exitGame_button = document.querySelector("#exit-game-button");
-let speedButtons = document.querySelectorAll(".speed-button")
 let finalScore = document.querySelector("#final-score")
 let gameOverScreen = document.querySelector("#game-over-screen")
+let direction = "left";
+let savedPosition = { row: 0, column: 0 };
+let copyOfCurrentPosition = { row: 0, column: 0 }
+let snakeLength = 4;
+let gameSpeed = 120;
+let mainInterval = undefined;
+let foodCounter = 5;
+let eatCounter = "";
+
 let mainGameboardArray = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -48,31 +58,15 @@ let mainGameboardArray = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
-let previewGameboardArray = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-let direction = "left";
-let savedPosition = { row: 0, column: 0 };
-let copyOfCurrentPosition = { row: 0, column: 0 }
-let snakeLength = 4;
-let gameSpeed = 120;
-let mainInterval = undefined;
+let previewGameboardArray = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 let mainSnake = [{ part: "head", position: { row: 18, column: 30 } }, { part: "body", position: { row: 18, column: 31 } }, { part: "body", position: { row: 18, column: 32 } }, { part: "body", position: { row: 18, column: 33 } }, { part: "body", position: { row: 18, column: 34 } }];
 let previewSnake = [{ part: "head", position: { row: 3, column: 10 } }, { part: "body", position: { row: 3, column: 9 } }, { part: "body", position: { row: 3, column: 8 } }, { part: "body", position: { row: 3, column: 7 } }, { part: "body", position: { row: 3, column: 6 } }];
-
-
-function resetSnake() {
-    let counter = mainSnake.length - 1;
-    let snakeDefaultState = [{ part: "head", position: { row: 18, column: 30 } }, { part: "body", position: { row: 18, column: 31 } }, { part: "body", position: { row: 18, column: 32 } }, { part: "body", position: { row: 18, column: 33 } }, { part: "body", position: { row: 18, column: 34 } }];
-    for (let i = 0; i < counter; i++) {
-        if (i >= snakeDefaultState.length - 1) {
-            mainSnake.pop();
-        } else {
-            mainSnake[i].position.row = snakeDefaultState[i].position.row;
-            mainSnake[i].position.column = snakeDefaultState[i].position.column;
-        }
-    }
-}
 
 startGame_button.addEventListener("click", () => {
     direction = "left";
@@ -90,6 +84,7 @@ exitGame_button.addEventListener("click", () => {
     direction = "left";
     clearInterval(mainInterval);
     disableKeys()
+    gameSpeed = 120;
     startGameWindowInterval = setInterval(preview, gameSpeed)
     mainGame_window.style.display = "none";
     gameOverScreen.style.display = "none";
@@ -98,49 +93,50 @@ exitGame_button.addEventListener("click", () => {
     resetSnake();
 })
 
-function enableSpeedButtons(button) {
-    switch (button.target.id) {
-        case "speed1":
-            gameSpeed = 250;
-            clearInterval(startGameWindowInterval)
-            startGameWindowInterval = setInterval(preview, gameSpeed)
-            break;
-        case "speed2":
-            gameSpeed = 180;
-            clearInterval(startGameWindowInterval)
-            startGameWindowInterval = setInterval(preview, gameSpeed)
-            break;
-        case "speed3":
-            gameSpeed = 120;
-            clearInterval(startGameWindowInterval)
-            startGameWindowInterval = setInterval(preview, gameSpeed)
-            break;
-        case "speed4":
-            gameSpeed = 80;
-            clearInterval(startGameWindowInterval)
-            startGameWindowInterval = setInterval(preview, gameSpeed)
-            break;
-        case "speed5":
-            gameSpeed = 50;
-            clearInterval(startGameWindowInterval)
-            startGameWindowInterval = setInterval(preview, gameSpeed)
-            break;
+programSpeedButtons(enableSpeedButtons)
+renderGameboard(previewGameboard, previewGameboardArray);
+let startGameWindowInterval = setInterval(preview, gameSpeed)
+
+function game() {
+    if (eatCounter === 0) {
+        deleteFood();
+    }
+    if (foodCounter === 0) {
+        generateFood();
+        eatCounter = 40;
+        foodCounter = 45;
+    }
+    foodCounter--;
+    eatCounter--;
+
+    mainGameboard.innerHTML = "";
+    moveSnake(mainSnake, mainGameboardArray);
+    placeSnakeOnBoard(mainGameboardArray, mainSnake);
+    resetGameboard(mainGameboardArray);
+    placeSnakeOnBoard(mainGameboardArray, mainSnake);
+    renderGameboard(mainGameboard, mainGameboardArray);
+}
+
+function preview() {
+    previewGameboard.innerHTML = "";
+    resetGameboard(previewGameboardArray);
+    moveSnake(previewSnake, previewGameboardArray);
+    placeSnakeOnBoard(previewGameboardArray, previewSnake);
+    renderGameboard(previewGameboard, previewGameboardArray);
+}
+
+function resetSnake() {
+    let counter = mainSnake.length - 1;
+    let snakeDefaultState = [{ part: "head", position: { row: 18, column: 30 } }, { part: "body", position: { row: 18, column: 31 } }, { part: "body", position: { row: 18, column: 32 } }, { part: "body", position: { row: 18, column: 33 } }, { part: "body", position: { row: 18, column: 34 } }];
+    for (let i = 0; i < counter; i++) {
+        if (i >= snakeDefaultState.length - 1) {
+            mainSnake.pop();
+        } else {
+            mainSnake[i].position.row = snakeDefaultState[i].position.row;
+            mainSnake[i].position.column = snakeDefaultState[i].position.column;
+        }
     }
 }
-
-function disableSpeedButtons() {
-    speedButtons.forEach(button => {
-        button.removeEventListener("click", enableSpeedButtons)
-    })
-}
-
-function programSpeedButtons(handler) {
-    speedButtons.forEach(button => {
-        button.addEventListener("click", handler)
-    })
-}
-
-programSpeedButtons(enableSpeedButtons)
 
 function moveSnake(snake, gameboardArray) {
     for (let i = 0; i < snake.length; i++) {
@@ -193,6 +189,77 @@ function moveSnakeBody(index, snake) {
     snake[index].position.column = savedPosition.column;
 }
 
+function placeSnakeOnBoard(gameboardArray, snake) {
+    snake.forEach(element => {
+        if (element.part === "head") {
+            if (gameboardArray[element.position.row][element.position.column] === 2) {
+                clearInterval(mainInterval);
+                finalScore.textContent = score;
+                gameOverScreen.style.display = "flex";
+                finalScore.textContent = score;
+            }
+            if (gameboardArray[element.position.row][element.position.column] === 3) {
+                snake.push({ part: "body", position: { row: savedPosition.row, column: savedPosition.column } })
+                score += 10;
+                scoreTable.textContent = score;
+                scoreCounter++;
+                if (scoreCounter === 6 && gameSpeed > 10) {
+                    scoreCounter = 0;
+                    gameSpeed -= 10;
+                    console.log(gameSpeed)
+                    clearInterval(mainInterval);
+                    mainInterval = mainInterval = setInterval(game, gameSpeed);
+                }
+            }
+            gameboardArray[element.position.row][element.position.column] = 1;
+        } else if (element.part === "body") {
+            gameboardArray[element.position.row][element.position.column] = 2;
+        }
+    })
+}
+
+function enableSpeedButtons(button) {
+    switch (button.target.id) {
+        case "speed1":
+            gameSpeed = 250;
+            clearInterval(startGameWindowInterval)
+            startGameWindowInterval = setInterval(preview, gameSpeed)
+            break;
+        case "speed2":
+            gameSpeed = 180;
+            clearInterval(startGameWindowInterval)
+            startGameWindowInterval = setInterval(preview, gameSpeed)
+            break;
+        case "speed3":
+            gameSpeed = 120;
+            clearInterval(startGameWindowInterval)
+            startGameWindowInterval = setInterval(preview, gameSpeed)
+            break;
+        case "speed4":
+            gameSpeed = 80;
+            clearInterval(startGameWindowInterval)
+            startGameWindowInterval = setInterval(preview, gameSpeed)
+            break;
+        case "speed5":
+            gameSpeed = 50;
+            clearInterval(startGameWindowInterval)
+            startGameWindowInterval = setInterval(preview, gameSpeed)
+            break;
+    }
+}
+
+function disableSpeedButtons() {
+    speedButtons.forEach(button => {
+        button.removeEventListener("click", enableSpeedButtons)
+    })
+}
+
+function programSpeedButtons(handler) {
+    speedButtons.forEach(button => {
+        button.addEventListener("click", handler)
+    })
+}
+
 function enableKeys(event) {
     switch (event.key) {
         case "w":
@@ -216,41 +283,6 @@ function enableKeys(event) {
             }
             break;
     }
-}
-
-function disableKeys() {
-    document.removeEventListener("keydown", enableKeys)
-}
-
-function savePosition(row, column) {
-    savedPosition.row = row;
-    savedPosition.column = column;
-}
-
-function saveCopyOfCurrentPosition(row, column) {
-    copyOfCurrentPosition.row = row;
-    copyOfCurrentPosition.column = column;
-}
-
-function placeSnakeOnBoard(gameboardArray, snake) {
-    snake.forEach(element => {
-        if (element.part === "head") {
-            if (gameboardArray[element.position.row][element.position.column] === 2) {
-                clearInterval(mainInterval);
-                finalScore.textContent = score;
-                gameOverScreen.style.display = "flex";
-                finalScore.textContent = score;
-            }
-            if (gameboardArray[element.position.row][element.position.column] === 3) {
-                snake.push({ part: "body", position: { row: savedPosition.row, column: savedPosition.column } })
-                score += 10;
-                scoreTable.textContent = score;
-            }
-            gameboardArray[element.position.row][element.position.column] = 1;
-        } else if (element.part === "body") {
-            gameboardArray[element.position.row][element.position.column] = 2;
-        }
-    })
 }
 
 function renderGameboard(gameboard, gameboardArray) {
@@ -302,10 +334,6 @@ function deleteFood() {
     }
 }
 
-function gameOverTrigger() {
-    moveSnake(mainSnake, mainGameboardArray);
-}
-
 function createField(typeOfField) {
     let field = document.createElement("div");
     field.className = typeOfField;
@@ -318,35 +346,16 @@ function createRow() {
     return row;
 }
 
-let foodCounter = 5;
-let eatCounter = "";
-function game() {
-    if (eatCounter === 0) {
-        deleteFood();
-    }
-    if (foodCounter === 0) {
-        generateFood();
-        eatCounter = 40;
-        foodCounter = 45;
-    }
-    foodCounter--;
-    eatCounter--;
-
-    mainGameboard.innerHTML = "";
-    moveSnake(mainSnake, mainGameboardArray);
-    placeSnakeOnBoard(mainGameboardArray, mainSnake);
-    resetGameboard(mainGameboardArray);
-    placeSnakeOnBoard(mainGameboardArray, mainSnake);
-    renderGameboard(mainGameboard, mainGameboardArray);
+function disableKeys() {
+    document.removeEventListener("keydown", enableKeys)
 }
 
-function preview() {
-    previewGameboard.innerHTML = "";
-    resetGameboard(previewGameboardArray);
-    moveSnake(previewSnake, previewGameboardArray);
-    placeSnakeOnBoard(previewGameboardArray, previewSnake);
-    renderGameboard(previewGameboard, previewGameboardArray);
+function savePosition(row, column) {
+    savedPosition.row = row;
+    savedPosition.column = column;
 }
 
-renderGameboard(previewGameboard, previewGameboardArray);
-let startGameWindowInterval = setInterval(preview, gameSpeed)
+function saveCopyOfCurrentPosition(row, column) {
+    copyOfCurrentPosition.row = row;
+    copyOfCurrentPosition.column = column;
+}

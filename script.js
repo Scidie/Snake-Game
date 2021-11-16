@@ -69,6 +69,7 @@ let mainSnake = [{ part: "head", position: { row: 18, column: 30 } }, { part: "b
 let previewSnake = [{ part: "head", position: { row: 3, column: 10 } }, { part: "body", position: { row: 3, column: 9 } }, { part: "body", position: { row: 3, column: 8 } }, { part: "body", position: { row: 3, column: 7 } }, { part: "body", position: { row: 3, column: 6 } }];
 
 startGame_button.addEventListener("click", () => {
+    clearInterval(startGameWindowInterval);
     direction = "left";
     mainInterval = setInterval(game, gameSpeed);
     document.addEventListener("keydown", enableKeys)
@@ -77,7 +78,6 @@ startGame_button.addEventListener("click", () => {
         startGame_window.style.display = "none";
         mainGame_window.style.display = "flex";
     }, 200)
-
 })
 
 exitGame_button.addEventListener("click", () => {
@@ -95,7 +95,42 @@ exitGame_button.addEventListener("click", () => {
 
 programSpeedButtons(enableSpeedButtons)
 renderGameboard(previewGameboard, previewGameboardArray);
+
+
+document.addEventListener("click", event => {
+    console.log("hello")
+    if (direction === "up" || direction === "down") {
+        console.log(getSnakePositionOnScreen().x)
+        if (getSnakePositionOnScreen().x < event.pageX) {
+            direction = "right";
+        } else if (getSnakePositionOnScreen().x > event.pageX) {
+            direction = "left";
+        }
+    } else if (direction === "left" || direction === "right") {
+        if (getSnakePositionOnScreen().y < event.pageY) {
+            direction = "down";
+        } else if (getSnakePositionOnScreen().y > event.pageY) {
+            direction = "up";
+        }
+    }
+})
+
+
 let startGameWindowInterval = setInterval(preview, gameSpeed)
+
+function getSnakePositionOnScreen() {
+    let allGameBoardFields = document.querySelectorAll(".field")
+    let positon = "";
+    allGameBoardFields.forEach(field => {
+        if (field.classList.contains("snake-head")) {
+            let fieldPositionProperties = field.getBoundingClientRect();
+            let x = Math.round(fieldPositionProperties.x + (fieldPositionProperties.width/2));
+            let y = Math.round(fieldPositionProperties.y + (fieldPositionProperties.height/2))
+            positon = {x: x, y: y}
+        }
+    })
+    return positon;
+}
 
 function game() {
     if (eatCounter === 0) {
@@ -206,7 +241,6 @@ function placeSnakeOnBoard(gameboardArray, snake) {
                 if (scoreCounter === 6 && gameSpeed > 10) {
                     scoreCounter = 0;
                     gameSpeed -= 10;
-                    console.log(gameSpeed)
                     clearInterval(mainInterval);
                     mainInterval = mainInterval = setInterval(game, gameSpeed);
                 }
@@ -291,13 +325,13 @@ function renderGameboard(gameboard, gameboardArray) {
 
         for (let column = 0; column < gameboardArray[row].length; column++) {
             if (gameboardArray[row][column] === 0) {
-                newRow.appendChild(createField("empty-field"));
+                newRow.appendChild(createField("empty-field", gameboard));
             } else if (gameboardArray[row][column] === 1) {
-                newRow.appendChild(createField("snake-head"));
+                newRow.appendChild(createField("snake-head", gameboard));
             } else if (gameboardArray[row][column] === 2) {
-                newRow.appendChild(createField("snake-body"));
+                newRow.appendChild(createField("snake-body", gameboard));
             } else if (gameboardArray[row][column] === 3) {
-                newRow.appendChild(createField("food"));
+                newRow.appendChild(createField("food", gameboard));
             }
         }
         gameboard.appendChild(newRow);
@@ -334,9 +368,12 @@ function deleteFood() {
     }
 }
 
-function createField(typeOfField) {
+function createField(typeOfField, gameboard) {
     let field = document.createElement("div");
     field.className = typeOfField;
+    if (gameboard.id === "gameboard") {
+        field.classList.add("field")
+    }
     return field;
 }
 

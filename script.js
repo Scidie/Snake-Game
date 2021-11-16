@@ -82,6 +82,8 @@ startGame_button.addEventListener("click", () => {
 })
 
 exitGame_button.addEventListener("click", () => {
+    score = 0;
+    scoreTable.textContent = "0";
     direction = "left";
     document.removeEventListener("mousedown", enableTouchControl);
     clearInterval(mainInterval);

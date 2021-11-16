@@ -71,7 +71,7 @@ let previewSnake = [{ part: "head", position: { row: 3, column: 10 } }, { part: 
 startGame_button.addEventListener("click", () => {
     clearInterval(startGameWindowInterval);
     direction = "left";
-    document.addEventListener("click", enableTouchControl);
+    document.addEventListener("mousedown", enableTouchControl);
     mainInterval = setInterval(game, gameSpeed);
     document.addEventListener("keydown", enableKeys)
     setTimeout(() => {
@@ -83,7 +83,7 @@ startGame_button.addEventListener("click", () => {
 
 exitGame_button.addEventListener("click", () => {
     direction = "left";
-    document.removeEventListener("click", enableTouchControl);
+    document.removeEventListener("mousedown", enableTouchControl);
     clearInterval(mainInterval);
     disableKeys()
     gameSpeed = 120;

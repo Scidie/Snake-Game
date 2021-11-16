@@ -10,6 +10,7 @@ body {
     justify-content: center;
     font-family: 'Press Start 2P', cursive;
     background-color: darkmagenta;
+    transform: scale(0.5);
     /* background-image: url("./images/./snakes1.jpg"); */
 }
 

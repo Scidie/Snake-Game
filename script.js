@@ -98,18 +98,18 @@ exitGame_button.addEventListener("click", () => {
 programSpeedButtons(enableSpeedButtons)
 renderGameboard(previewGameboard, previewGameboardArray);
 
-function enableTouchControl() {
+function enableTouchControl(event) {
     if (direction === "up" || direction === "down") {
         console.log(getSnakePositionOnScreen().x)
-        if (getSnakePositionOnScreen().x < event.pageX) {
+        if (getSnakePositionOnScreen().x < event.clientX) {
             direction = "right";
-        } else if (getSnakePositionOnScreen().x > event.pageX) {
+        } else if (getSnakePositionOnScreen().x > event.clientX) {
             direction = "left";
         }
     } else if (direction === "left" || direction === "right") {
-        if (getSnakePositionOnScreen().y < event.pageY) {
+        if (getSnakePositionOnScreen().y < event.clientY) {
             direction = "down";
-        } else if (getSnakePositionOnScreen().y > event.pageY) {
+        } else if (getSnakePositionOnScreen().y > event.clientY) {
             direction = "up";
         }
     }

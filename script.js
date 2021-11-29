@@ -13,7 +13,6 @@ let finalScore = document.querySelector("#final-score")
 let gameOverScreen = document.querySelector("#game-over-screen")
 let direction = "left";
 let savedPosition = { row: 0, column: 0 };
-let snakeLength = 4;
 let gameSpeed = 120;
 let mainInterval = undefined;
 let eatTimer = undefined;
@@ -127,8 +126,6 @@ function gameLoop() {
     resetGameboardArray(mainGameboardArray);
     updateGameboardArray(mainGameboardArray, mainSnakeData);
     renderGameboard(mainGameboard, mainGameboardArray);
-
-
 }
 
 function enableTouchControl(event) {
